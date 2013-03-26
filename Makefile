@@ -1,5 +1,6 @@
 PROJECT_NAME=YOUR_PROJECTNAME_HERE
 BUNDLE_ID=YOUR_BUNDLE_ID
+DISPLAY_NAME=YOUR_APP_DISPLAY_NAME
 DIST_LIST=YOUR_TESTFLIGHT_DIST_LIST_HERE
 API_TOKEN=YOUR_TESTFLIGHT_API_TOKEN_HERE
 TEAM_TOKEN=YOUR_TESTFLIGHT_TEAM_TOKEN_HERE
@@ -20,11 +21,9 @@ staging: set_environment_to upload
 qa: CONFIGURATION=QA
 qa: set_environmant upload
 
-set_environmant:
-	scripts/set-environment.sh ${INFO_PLIST} ${BUNDLE_ID}
-
-set_environment_to:
-	scripts/set-environment.sh ${INFO_PLIST} ${BUNDLE_ID} ${CONFIGURATION}
+set_environment:
+	/usr/libexec/PlistBuddy -c "Set CFBundleIdentifier ${BUNDLE_ID}" ${INFO_PLIST}
+	/usr/libexec/PlistBuddy -c "Set CFBundleDisplayName ${DISPLAY_NAME}" ${INFO_PLIST}
 
 build-app:
 	cd ${PROJECT_DIR} && xcodebuild -configuration ${CONFIGURATION} -scheme ${SCHEME} BUILD_DIR=${BUILD_DIR}
